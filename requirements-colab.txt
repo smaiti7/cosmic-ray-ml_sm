@@ -1,0 +1,8 @@
+# PyTorch is already supplied by the hosted Colab GPU runtime.
+numpy>=1.26,<3
+scipy>=1.13,<2
+scikit-learn>=1.5,<2
+matplotlib>=3.8,<4
+tqdm>=4.66,<5
+joblib>=1.4,<2
+

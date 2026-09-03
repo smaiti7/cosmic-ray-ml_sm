@@ -1,0 +1,35 @@
+{
+  "provenance": "Frozen local GPU test runs completed on 2026-09-01; these are reference values, not Colab reruns.",
+  "split": "test",
+  "events": 7500,
+  "original": {
+    "parameters": 57260,
+    "selected_epoch": 31,
+    "best_validation_loss": 0.108662,
+    "classification/roc_auc": 0.99018694,
+    "classification/pr_auc": 0.99384866,
+    "classification/accuracy_at_0.5": 0.9833333,
+    "classification/brier": 0.0146665,
+    "energy/mae": 0.0844217,
+    "energy/rmse": 0.1411481,
+    "energy/bias": -0.0122747,
+    "core/mean_distance": 1.323885,
+    "core/median_distance": 0.642900,
+    "core/p68_distance": 0.941659
+  },
+  "attention": {
+    "parameters": 59373,
+    "selected_epoch": 30,
+    "best_validation_loss": 0.105021,
+    "classification/roc_auc": 0.989556,
+    "classification/pr_auc": 0.99347377347894,
+    "classification/accuracy_at_0.5": 0.985333,
+    "classification/brier": 0.013468,
+    "energy/mae": 0.082830,
+    "energy/rmse": 0.142062,
+    "energy/bias": 0.010602,
+    "core/mean_distance": 1.284754,
+    "core/median_distance": 0.613031,
+    "core/p68_distance": 0.875752
+  }
+}

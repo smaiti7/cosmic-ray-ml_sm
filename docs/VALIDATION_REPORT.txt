@@ -1,0 +1,68 @@
+VALIDATION REPORT — 2026-09-02
+================================
+
+SCOPE
+-----
+1. Existing Original-to-Attention presentation package.
+2. New GitHub/Google Colab release.
+
+EXISTING PRESENTATION PACKAGE
+-----------------------------
+Status: VALIDATED
+
+- SHA-256 verification: every entry in MANIFEST.sha256 passed.
+- Modified main presentation: valid PPTX/ZIP archive, 12 slides.
+- Layout check: every slide shape is within slide bounds.
+- Oral Q&A guide: valid unencrypted A4 PDF, 24 pages.
+- PDF text check: slide 1, slides 10-12, general ML questions,
+  numbers to memorize, and final rehearsal checklist were found.
+
+Preserved non-deliverable backup (not an error):
+  ../original_to_attention_20260901/build_slide_discussion_guide.py.orig
+
+The backup is deliberately retained at the user's request. See that package's
+VALIDATION_NOTICE_20260902.txt. Use the PPTX/PDF/TXT paths listed there.
+
+GITHUB/COLAB RELEASE
+--------------------
+Status: VALIDATED LOCALLY; READY AFTER REPOSITORY PLACEHOLDERS ARE EDITED
+
+- Python compile check: passed for cosmic_ml/, scripts/, and tests/.
+- Unit tests: 2 passed.
+- Original Deep Sets forward/backward path: passed.
+- Attention Deep Sets forward/checkpoint/evaluation path: passed.
+- Expected parameter counts observed: Original 57,260; Attention 59,373.
+- Notebook static validation: 19 cells, 8 code cells, valid Python syntax,
+  GPU metadata present, no saved outputs.
+- End-to-end notebook smoke test: passed on NVIDIA GeForce GTX 1080 Ti.
+- Smoke scope: 128 training events, 64 validation events, 1 epoch.
+- Tested stages: prepared-data reuse, GPU detection, Original training,
+  best-checkpoint save, validation evaluation, plots, and reference table.
+- Separate Attention smoke test: passed with 128/64 events and 1 epoch.
+- Git ignore check: dataset, extracted arrays, outputs, checkpoints, notebook
+  checkpoints, and patch backups are excluded.
+
+The smoke metrics are not scientific final results and are not saved in this
+release. Full-run provenance values are stored in results/reference_metrics.json.
+
+Preserved non-deliverable backups created by the sandbox patch workaround:
+  cosmic_ml/evaluate.py.orig
+  scripts/build_notebook.py.orig
+  scripts/build_notebook.py.rej
+
+These files are harmless, deliberately preserved, and ignored by Git via
+the *.orig rule. They will not be included by a normal `git add .`.
+
+REQUIRED USER ACTION BEFORE GITHUB UPLOAD
+-----------------------------------------
+Replace YOUR_USERNAME/YOUR_REPOSITORY in README.md and
+Cosmic_Ray_ML_Colab.ipynb. Add a license approved by the repository owners.
+Then run `git status` and confirm no data or output artifacts are staged.
+
+BOUNDARY OF THIS VALIDATION
+---------------------------
+The hosted Colab service itself was not invoked from this desktop validation.
+The canonical notebook was executed locally through Jupyter with the same code
+path and GPU metadata. Colab GPU assignment, storage, and runtime duration are
+external resources and are not guaranteed by Google.
+
