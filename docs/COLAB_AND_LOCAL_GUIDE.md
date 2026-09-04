@@ -4,8 +4,9 @@
 
 The best deliverable is a **hybrid repository**:
 
-1. The local GPU workflow is the canonical route for complete experiments and the final reported numbers.
-2. The Colab notebook is the portable teaching/demo route and can also attempt a full rerun.
+1. The included completed Colab full runs are the source of the final reported comparison.
+2. The local GPU workflow is an equally supported route for complete independent reruns.
+3. The main Colab notebook is the portable teaching/demo route and can also perform a full rerun.
 
 This avoids choosing between reliability and accessibility. A hosted notebook is easier for the examiner to open, while a local run is safer for a 1.8 GB compressed dataset that expands to roughly 9.7 GB and must survive preprocessing and training.
 
@@ -173,13 +174,13 @@ python -m cosmic_ml.evaluate \
 
 For later repository changes:
 
-1. Confirm that `git status` contains only the files you intend to update.
+1. Confirm that `git status` contains only the files you intend to update and does not list anything under `data/`, `outputs/`, or `build/`.
 2. Check that no dataset, extracted arrays, temporary outputs, or other large generated files have been added accidentally.
-3. Run the CPU tests.
-4. Regenerate the clean notebook if the notebook-generation script has changed.
-5. Regenerate and verify `MANIFEST.sha256` if the repository uses the manifest.
-6. Review the final diff.
-7. Commit and push the changes.
+3. Do not commit `.pt`, `.pth`, `.npy`, or dataset/prediction `.npz` files.
+4. Run the CPU tests and validate that the clean notebook can be generated.
+5. Regenerate `MANIFEST.sha256` only after every intended file change is complete.
+6. Verify the manifest from the repository root.
+7. Review the final diff, then commit and push the changes.
 8. Reopen the main notebook from GitHub in Colab and confirm that the badge, repository update, and quick-mode execution still work.
 
 ### Useful commands
@@ -194,6 +195,28 @@ git commit -m "Add reproducible Colab and local GPU workflow"
 git branch -M main
 git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
 git push -u origin main
+```
+
+Maintenance commands:
+
+```bash
+python -m unittest discover -s tests -v
+python scripts/build_notebook.py --force
+python scripts/build_manifest.py
+
+# macOS
+shasum -a 256 -c MANIFEST.sha256
+
+git status
+git add .
+git commit -m "Update reproducible Colab workflow"
+git push
+```
+
+On Linux, use `sha256sum -c MANIFEST.sha256` for the verification step. For a
+fork, generate a retargeted clean notebook with
+`--repo-slug OWNER/REPOSITORY` before replacing any canonical notebook.
+
 
 ## Experimental setup and reproducibility
 

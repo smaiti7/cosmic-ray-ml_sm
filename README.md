@@ -36,9 +36,10 @@ The Colab badge and clone configuration point to this repository.
 
 ## Build a clean notebook copy
 
-The final executed notebook remains the source of truth. To create a clean,
-source-only copy with all outputs and execution counts removed, run this from
-the repository root:
+The builder searches first for the final root notebook and then for another
+structurally valid, non-archival notebook. If none is available, it builds the
+same current 19-cell notebook from its independent embedded fallback. To
+create a clean, source-only copy, run this from the repository root:
 
 ```bash
 python scripts/build_notebook.py
@@ -50,9 +51,15 @@ existing generated copy, add `--force`. A fork can retarget its GitHub and
 Colab links with `--repo-slug OWNER/REPOSITORY`.
 
 This updated builder normalizes the current polished notebook instead of
-duplicating all notebook cells inside a Python file. The archived legacy
-builder used duplicated cell text and could therefore regenerate an outdated
-version.
+maintaining a second editable copy of every cell. Its compact fallback is used
+only when no valid notebook is found. You can test that independent path with:
+
+```bash
+python scripts/build_notebook.py --from-scratch --force
+```
+
+The archived legacy builder used separately maintained cell text and could
+therefore regenerate an outdated version.
 
 ## Verify downloaded files
 
