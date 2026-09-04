@@ -5,15 +5,25 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-EXCLUDED_SUFFIXES = {".orig", ".rej", ".pyc"}
-EXCLUDED_PARTS = {"__pycache__", ".ipynb_checkpoints", ".git"}
+EXCLUDED_NAMES = {"MANIFEST.sha256", ".DS_Store"}
+EXCLUDED_SUFFIXES = {".orig", ".rej", ".pyc", ".pt", ".pth", ".npz", ".npy"}
+EXCLUDED_PARTS = {
+    "__pycache__",
+    ".ipynb_checkpoints",
+    ".git",
+    ".venv",
+    "build",
+    "checkpoints",
+    "data",
+    "outputs",
+}
 
 
 def included(path: Path) -> bool:
     relative = path.relative_to(ROOT)
     return (
         path.is_file()
-        and path.name != "MANIFEST.sha256"
+        and path.name not in EXCLUDED_NAMES
         and path.suffix not in EXCLUDED_SUFFIXES
         and not any(part in EXCLUDED_PARTS for part in relative.parts)
     )

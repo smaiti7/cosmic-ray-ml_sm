@@ -153,19 +153,38 @@ python -m cosmic_ml.evaluate \
   --device cuda
 ```
 
-## GitHub upload checklist
+## GitHub setup and update checklist
+
+### Initial setup
 
 1. Create an empty GitHub repository.
-2. Replace `YOUR_USERNAME/YOUR_REPOSITORY` in the notebook and README.
-3. Confirm `git status` does not list anything under `data/` or `outputs/`.
-4. Do not commit `.pt`, `.npy`, or dataset `.npz` files.
-5. Add an owner-approved license.
-6. Run the tests locally.
-7. Commit and push the contents of this release folder.
-8. Open the notebook from GitHub in Colab and run quick mode once.
-9. Save the executed quick-demo notebook only if its outputs are small and clearly labeled.
+2. Update the repository URL in the notebook and README.
+3. Add the MIT `LICENSE` file.
+4. Confirm that `git status` does not include unintended files from `data/`, `outputs/`, or `build/`.
+5. Do not commit the downloaded dataset, extracted arrays, or large temporary training artifacts such as `.npy`, `.pt`, `.pth`, or dataset `.npz` files. Selected compact result files stored intentionally under `results/` may be kept for reproducibility.
+6. Run the CPU tests and validate the notebook.
+7. If a manifest is maintained, regenerate `MANIFEST.sha256` only after all intended file changes are complete and verify it from the repository root.
+8. Review the final Git diff, then commit and push.
+9. Open `Cosmic_Ray_ML_Colab.ipynb` from GitHub in Colab and confirm that the **Open in Colab** badge works.
+10. Run `quick` mode once to verify the complete portable pipeline.
+11. Keep executed notebook outputs only when they are reasonably small and clearly labeled.
 
-Example commands after copying this folder into its own repository:
+### Subsequent updates
+
+For later repository changes:
+
+1. Confirm that `git status` contains only the files you intend to update.
+2. Check that no dataset, extracted arrays, temporary outputs, or other large generated files have been added accidentally.
+3. Run the CPU tests.
+4. Regenerate the clean notebook if the notebook-generation script has changed.
+5. Regenerate and verify `MANIFEST.sha256` if the repository uses the manifest.
+6. Review the final diff.
+7. Commit and push the changes.
+8. Reopen the main notebook from GitHub in Colab and confirm that the badge, repository update, and quick-mode execution still work.
+
+### Useful commands
+
+For the initial repository setup:
 
 ```bash
 git init
@@ -175,11 +194,10 @@ git commit -m "Add reproducible Colab and local GPU workflow"
 git branch -M main
 git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
 git push -u origin main
-```
 
-## What to say in the presentation
+## Experimental setup and reproducibility
 
-“I used local GPU training for the final experiment because the dataset is large and local storage and hardware are persistent. I also packaged the same pipeline as a Colab notebook to make the work easy to inspect and reproduce. Colab defaults to a short deterministic demonstration, while full mode preserves the original validation and test protocol. The final reported metrics come from the completed full runs, not from the small demo.”
+The main model comparison uses completed Colab GPU full runs, while the same pipeline is also supported on local NVIDIA GPUs for persistent hardware and storage. Colab defaults to a short deterministic demonstration, but full mode preserves the same validation and test protocol. Final metrics come from the completed full runs, not from quick mode.
 
 ## Reproducibility boundaries
 

@@ -1,14 +1,26 @@
+# Large/generated data
 data/
 outputs/
 checkpoints/
+*.npy
+
+# Model/data artifacts
 *.pt
 *.pth
 *.npz
-*.npy
+
+# Python
 __pycache__/
 *.py[cod]
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Build files
+/build/
+
+# OS/editor leftovers
+.DS_Store
 *.orig
 *.rej
-.ipynb_checkpoints/
-.DS_Store
-

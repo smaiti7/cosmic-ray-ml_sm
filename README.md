@@ -34,6 +34,43 @@ Repository: `cosmic-ray-ml_sm`
 
 The Colab badge and clone configuration point to this repository.
 
+## Build a clean notebook copy
+
+The final executed notebook remains the source of truth. To create a clean,
+source-only copy with all outputs and execution counts removed, run this from
+the repository root:
+
+```bash
+python scripts/build_notebook.py
+```
+
+The output is `build/Cosmic_Ray_ML_Colab.ipynb`; `build/` is ignored by Git, so
+the submitted notebook cannot be overwritten accidentally. To replace an
+existing generated copy, add `--force`. A fork can retarget its GitHub and
+Colab links with `--repo-slug OWNER/REPOSITORY`.
+
+This updated builder normalizes the current polished notebook instead of
+duplicating all notebook cells inside a Python file. The archived legacy
+builder used duplicated cell text and could therefore regenerate an outdated
+version.
+
+## Verify downloaded files
+
+Run checksum verification from the repository root (the directory containing
+`MANIFEST.sha256`):
+
+```bash
+# Linux
+sha256sum -c MANIFEST.sha256
+
+# macOS
+shasum -a 256 -c MANIFEST.sha256
+```
+
+If the command reports `No such file or directory`, first use `cd` to enter
+the repository root. The manifest intentionally excludes datasets,
+checkpoints, prediction arrays, build products, and `.DS_Store` files.
+
 ## Run in Google Colab
 
 1. Upload this folder to a GitHub repository.
