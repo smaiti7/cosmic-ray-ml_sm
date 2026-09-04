@@ -1,0 +1,12 @@
+{
+  "classification/roc_auc": 0.990649719725915,
+  "classification/pr_auc": 0.9941811795439061,
+  "classification/accuracy_at_0.5": 0.9861333333333333,
+  "classification/brier": 0.013397841882969863,
+  "energy/mae": 0.08458716422319412,
+  "energy/rmse": 0.1432093232870102,
+  "energy/bias": 0.023942580446600914,
+  "core/mean_distance": 1.2975749565277366,
+  "core/median_distance": 0.6390247485151038,
+  "core/p68_distance": 0.9356689743268998
+}
