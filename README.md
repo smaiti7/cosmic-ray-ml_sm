@@ -92,4 +92,5 @@ Earlier desktop-GPU results are retained in `results/reference_metrics.json` as 
 
 ## License and data
 
-No license is invented or added in this release. Add the license approved by the project owners before public redistribution. The dataset stays at its official external download location and is not redistributed here.
+The project code is released under the MIT License; see `LICENSE`. The dataset is not redistributed in this repository and is downloaded from the original [University of Genova exam repository](https://github.com/ML4PhysicsTeachingGenova/exam_2026).
+
