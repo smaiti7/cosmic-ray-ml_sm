@@ -1,27 +1,31 @@
 # Cosmic-Ray ML — Colab and Local GPU Edition
 
-This is the portable GitHub release of the University of Genova cosmic-ray shower project. It keeps the validated local workflow and adds a single Google Colab notebook for easy demonstration and transfer.
+This is the portable GitHub release of the University of Genova cosmic-ray shower project. It provides an end-to-end PyTorch workflow for shower classification, energy reconstruction, and core-position reconstruction, with both Original Deep Sets and Attention Deep Sets models. The repository includes a portable Colab notebook together with saved results from completed full Colab runs.
 
 ## Recommended use
 
-- **For reproducible final numbers:** use the full local GPU run. A local GPU has persistent storage, predictable hardware, and no hosted-runtime timeout.
-- **GitHub sharing and live demonstration:** use the Colab notebook in `quick` mode. It trains on a subset and proves that the complete pipeline works.
-- **Optional hosted rerun:** use the notebook in `full` mode only when a Colab GPU and enough runtime/storage are available.
+- **Main final comparison:** use the saved completed Colab full-run results for Original and Attention Deep Sets.
+- **GitHub sharing and live demonstration:** use `Cosmic_Ray_ML_Colab.ipynb` in `quick` mode.
+- **Full rerun:** use `full` mode when sufficient Colab GPU runtime and storage are available; Google Drive can be used for persistent outputs.
+- **Reproducibility reference:** earlier desktop-GPU results are retained in `results/reference_metrics.json`.
 
-The default presentation model is **Original Deep Sets**. **Attention Deep Sets** is included as a controlled comparison that changes only detector aggregation.
+The default demonstration model is the Baseline or**Original Deep Sets**. **Attention Deep Sets** is a controlled extension that changes only detector aggregation.
 
 ## Repository contents
 
 | Path | Purpose |
 |---|---|
-| `Cosmic_Ray_ML_Colab.ipynb` | Documented end-to-end notebook with quick/full switches |
+| `Cosmic_Ray_ML_Colab.ipynb` | Main documented notebook with quick/full switches |
 | `cosmic_ml/` | Preprocessing, models, training, evaluation, and metrics |
-| `scripts/download_data.sh` | Downloads the official 1.8 GB dataset and checks its byte size |
-| `results/reference_metrics.json` | Frozen results from the completed local GPU experiments |
-| `docs/COLAB_AND_LOCAL_GUIDE.md` | Detailed instructions, design reasons, and limitations |
-| `tests/` | CPU unit tests for Original and Attention Deep Sets |
+| `scripts/download_data.sh` | Downloads and verifies the official dataset |
+| `results/original_full/` | Saved outputs from the completed Original Colab full run |
+| `results/attention_full/` | Saved outputs from the completed Attention Colab full run |
+| `results/reference_metrics.json` | Earlier desktop-GPU results used as a reproducibility reference |
+| `full_runs/` | Executed archival notebooks for the Original and Attention full runs |
+| `docs/COLAB_AND_LOCAL_GUIDE.md` | Additional instructions and implementation notes |
+| `tests/` | CPU unit tests for both model variants |
 
-Large files are intentionally excluded by `.gitignore`: the dataset, extracted arrays, model checkpoints, predictions, and run outputs must not be committed to GitHub.
+The dataset and extracted training arrays remain excluded by `.gitignore`. Selected compact full-run outputs are included under `results/` for reproducibility, while large temporary training artifacts should not be committed unnecessarily.
 
 ## Repository
 
@@ -40,7 +44,7 @@ The Colab badge and clone configuration point to this repository.
 6. Change `MODEL_VARIANT` to `attention` only when you want the controlled extension.
 7. Use `RUN_MODE = "full"` for the full dataset and up to 40 epochs. Keep the tab/runtime active and consider saving outputs to Google Drive.
 
-Quick mode uses 5,000 training and 1,000 validation events for 5 epochs. Its metrics are a pipeline demonstration and must **not** replace the final reference metrics from the completed full runs in the presentation.
+Quick mode uses 5,000 training and 1,000 validation events for 5 epochs. Its metrics demonstrate that the pipeline works, but the final model comparison in Section 9 is loaded from the saved completed Colab full-run results.
 
 ## Run locally with an NVIDIA GPU
 
@@ -66,20 +70,25 @@ For Attention Deep Sets, change `--model-type original` to `--model-type attenti
 
 Use training data to fit weights, validation data for model selection and early stopping, and the frozen test split only for the final selected model. Energy and core losses/metrics are evaluated only for true signal events because those targets are undefined for background.
 
-## Reference results
+## Full-run results
 
-The checked-in JSON contains results already obtained from complete local GPU runs. The main values are:
+The main comparison uses the completed Colab full runs evaluated on the same 7,500-event test set.
 
 | Metric | Original | Attention |
 |---|---:|---:|
-| ROC-AUC | 0.99019 | 0.98956 |
-| Accuracy | 0.98333 | 0.98533 |
-| Brier score | 0.01467 | 0.01347 |
-| Energy MAE | 0.08442 | 0.08283 |
-| Median core error | 0.64290 | 0.61303 |
-| Core p68 error | 0.94166 | 0.87575 |
+| ROC-AUC | 0.98989 | **0.99065** |
+| PR-AUC | 0.99378 | **0.99418** |
+| Accuracy | 0.98493 | **0.98613** |
+| Brier score | 0.01372 | **0.01340** |
+| Energy MAE | **0.08416** | 0.08459 |
+| Energy RMSE | 0.14553 | **0.14321** |
+| Mean core error | 1.35518 | **1.29757** |
+| Median core error | 0.64200 | **0.63902** |
+| Core P68 error | 0.96211 | **0.93567** |
 
-Attention improves several calibration and reconstruction metrics, but Original Deep Sets remains the simplest strong model to explain. The comparison is a trade-off, not a universal win.
+Attention performs better on **8 of the 9 reported metrics**. The improvements are modest, with the Original model retaining a marginally lower energy MAE. Overall, the results suggest a small benefit from learned detector weighting while the simpler fixed-aggregation baseline remains highly competitive.
+
+Earlier desktop-GPU results are retained in `results/reference_metrics.json` as a reproducibility reference and show broadly consistent performance.
 
 ## License and data
 
